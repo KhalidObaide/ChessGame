@@ -4,6 +4,8 @@
  * ============================= *
 */
 
+const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+
 let board = [];
 // Start with white pieces.
 board.push(
@@ -16,7 +18,7 @@ board.push(
     {code : "oo", cell : "g1"},
     {code : "oo", cell : "h1"},
 );
-['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].forEach(letter => {
+letters.forEach(letter => {
     board.push({code : "oo", cell : letter + "2"});
 });
 
@@ -31,29 +33,37 @@ board.push(
     {code : "oo", cell : "g8"},
     {code : "oo", cell : "h8"},
 );
-['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].forEach(letter => {
+letters.forEach(letter => {
     board.push({code : "oo", cell : letter + "7"});
 });
 
 // Finally empty spaces.
-['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].forEach(letter => {
+letters.forEach(letter => {
     board.push({code : "oo", cell : letter + "3"});
     board.push({code : "oo", cell : letter + "4"});
     board.push({code : "oo", cell : letter + "5"});
     board.push({code : "oo", cell : letter + "6"});
 });
+
 placeItem = board.find(cell => {
     return cell.cell == "d4";
 });
 placeItem.code = "wR";
+
 placeItem = board.find(cell => {
     return cell.cell == "g7";
 });
+placeItem.code = "wR";
+
+placeItem = board.find(cell => {
+    return cell.cell == "e4";
+});
 placeItem.code = "wB";
+
 placeItem = board.find(cell => {
     return cell.cell == "b4";
 });
-placeItem.code = "bB";
+placeItem.code = "bR";
 /*
  * ============================= *
  * Finish filling up the board   *
@@ -113,7 +123,6 @@ function placeImage(cell, image){
 
 // setPieces is setting up the board for the first time.
 function setGame(){
-    const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
     board.forEach(item => {
         if(item.code == 'wR'){
             placeImage(item.cell, 'white_rook.svg');
@@ -174,7 +183,7 @@ function checkTarget(pies, cell, spe, player, pCode){
         if(spe == undefined){
             return false;
         }
-        if(['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].includes(spe)){
+        if(letters.includes(spe)){
             // Means we are in the ranks
             pies = pies.filter(pie => {
                 return pie.cell.charAt(0) === spe;
@@ -215,6 +224,15 @@ function checkTarget(pies, cell, spe, player, pCode){
 
 // The main function and the most important function for moving pieces.
 function move(code){
+    // removing the x if there is any
+    chars = "";
+    for(let i=0; i<code.length; i++){
+        if(code.charAt(i) != 'x'){
+            chars += code.charAt(i);
+        }
+    }
+    code = chars;
+
     // First layer of checking.
     const isSpe = ['1', '2', '3', '4', '5', '6', '7', '8', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].includes(code.charAt(0));
     const validChar = (isSpe)
@@ -226,19 +244,32 @@ function move(code){
         return;
     }
     let isLegal = false;
+
+    // Rook Move
     if((isSpe && code.charAt(1) == 'R') || (!isSpe && code.charAt(0) == 'R') ){
         isLegal = RookValid(
             (isSpe) ? code.substr(2) : code.substr(1),
             (whiteTurn) ? 'w':'b',
             (isSpe) ? code.charAt(0) : undefined
         );
+
+    }
+
+    // Bishop Move
+    if((isSpe && code.charAt(1) == 'B') || (!isSpe && code.charAt(0) == 'B') ){
+        isLegal = BishopValid(
+            (isSpe) ? code.substr(2) : code.substr(1),
+            (whiteTurn) ? 'w':'b',
+            (isSpe) ? code.charAt(0) : undefined
+        );
+
     }
 
     if(!isLegal){
         alert("Illegal Move");
         return;
     }else{
-        console.log("Good Move");
+        whiteTurn = !whiteTurn;
     }
 
 }

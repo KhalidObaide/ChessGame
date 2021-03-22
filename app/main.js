@@ -12,6 +12,7 @@ function main(){
     codeInput.addEventListener('keydown', e=>{
         if(e.key == 'Enter'){
             move(codeInput.value);
+            codeInput.value = "";
         }
     });
 }
