@@ -15,9 +15,12 @@ However for the programmers out there, there are a lots of helper functions that
 You can start contirbuting in the project and practice skills.
 
 ## TODO:
-1. Add the movement feature for all the pieces
-2. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
-3. Dragging the pieces in order to move instead of using the code.
+1. Create the Knight movement
+2. The Queen Movement
+3. King cannot move currently :smile: .
+4. The pawns are really important.
+5. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
+6. Dragging the pieces in order to move instead of using the code.
 
 ## Contirbute
 :relaxed: Fell free to contirbute to this project, and don't forget to send a pull request.
