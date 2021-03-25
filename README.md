@@ -15,11 +15,9 @@ However for the programmers out there, there are a lots of helper functions that
 You can start contirbuting in the project and practice skills.
 
 ## TODO:
-1. Solve the rook movement bug.
-2. Add capturing feature.
-3. Add the movement feature for all the pieces
-4. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
-5. Dragging the pieces in order to move instead of using the code.
+1. Add the movement feature for all the pieces
+2. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
+3. Dragging the pieces in order to move instead of using the code.
 
 ## Contirbute
 :relaxed: Fell free to contirbute to this project, and don't forget to send a pull request.

@@ -56,7 +56,7 @@ placeItem = board.find(cell => {
 placeItem.code = "wR";
 
 placeItem = board.find(cell => {
-    return cell.cell == "e4";
+    return cell.cell == "e3";
 });
 placeItem.code = "wB";
 
