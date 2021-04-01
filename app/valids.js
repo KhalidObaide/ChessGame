@@ -12,7 +12,7 @@ function colorize(poses){
 function RookValid(cell, player, spe = undefined){
     const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
 
-    // Get the possible moves
+    // Get the pieces
     let rooks = board.filter(item => {
         return item.code === player + "R";
     });
@@ -103,7 +103,7 @@ function RookValid(cell, player, spe = undefined){
 function BishopValid(cell, player, spe = undefined){
     const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
 
-    // Get the possible moves
+    // Get the pieces
     let bishops = board.filter(item => {
         return item.code === player + "B";
     });
@@ -205,7 +205,7 @@ function BishopValid(cell, player, spe = undefined){
 function KnightValid(cell, player, spe = undefined){
     const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
 
-    // Get the possible moves
+    // Get the pieces
     let knights = board.filter(item => {
         return item.code === player + "N";
     });
@@ -222,8 +222,8 @@ function KnightValid(cell, player, spe = undefined){
             letters[f-1] + (r-2).toString(), // m4
             letters[f-2] + (r+1).toString(), // m5
             letters[f-2] + (r-1).toString(), // m6
-            letters[f+2] + (r+1).toString(), // m6
-            letters[f+2] + (r-1).toString(), // m6
+            letters[f+2] + (r+1).toString(), // m7
+            letters[f+2] + (r-1).toString(), // m8
         ];
 
 
@@ -265,7 +265,7 @@ function KnightValid(cell, player, spe = undefined){
 function QueenValid(cell, player, spe = undefined){
     const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
 
-    // Get the possible moves
+    // Get the pieces
     let queens = board.filter(item => {
         return item.code === player + "Q";
     });
@@ -435,3 +435,70 @@ function QueenValid(cell, player, spe = undefined){
 
     return checkTarget(queens, cell, spe, player, 'Q');
 }
+
+
+/* **********************
+ * King Movement
+ * **********************/
+
+function KingValid(cell, player, spe = undefined){
+    const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
+
+    /* ***************
+     * it is only one king, but as the project is made like this we follow the rules
+     * ***************/
+
+    // Get the pieces
+    let kings = board.filter(item => {
+        return item.code === player + "K";
+    });
+
+    kings = kings.map(king => {
+        king.possibles = [];
+        const f = letters.indexOf(king.cell.charAt(0));
+        const r = parseInt(king.cell.charAt(1));
+
+        cellCodes = [
+            letters[f] + (r+1).toString(), // m1
+            letters[f+1] + (r+1).toString(), // m2
+            letters[f-1] + (r+1).toString(), // m3
+            letters[f-1] + (r).toString(), // m4
+            letters[f-1] + (r-1).toString(), // m5
+            letters[f] + (r-1).toString(), // m6
+            letters[f+1] + (r-1).toString(), // m7
+            letters[f+1] + (r).toString(), // m8
+        ];
+
+
+        // Check if the cell is not founded
+        // And check if there is a friend
+        cellCodes.forEach(item =>{
+            rankCheck = parseInt(item.charAt(1)) < 9
+                        && parseInt(item.charAt(1)) > 0
+
+            // item.length > 2 happens when the letter is not founded -> undefined3
+            if(!(item.length > 2) &&  rankCheck){
+                const fr = board.find(ce =>{
+                    return ce.cell == item;
+                });
+                if(!(fr.code.charAt(0) == player)){
+                    king.possibles.push(item);
+                }
+            }
+        });
+
+
+        // Converting the codes into cells
+        king.possibles = king.possibles.map(item => {
+            item = board.find(ce => {
+                return ce.cell === item;
+            });
+            return item
+        });
+        return king;
+
+    });
+    colorize(kings[0].possibles);
+    return checkTarget(kings, cell, spe, player, 'K');
+}
+

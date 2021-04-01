@@ -15,8 +15,8 @@ However for the programmers out there, there are a lots of helper functions that
 You can start contirbuting in the project and practice skills.
 
 ## TODO:
-1. King cannot move currently :smile: .
-2. The pawns are really important.
+1. The pawns are really important, make them move.
+2. King can move to any square, He doesn't check if someone can capture him or not :smile:.
 3. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
 4. Dragging the pieces in order to move instead of using the code.
 

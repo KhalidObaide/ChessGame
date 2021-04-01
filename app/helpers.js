@@ -63,6 +63,11 @@ placeItem = board.find(cell => {
 placeItem.code = "bR";
 
 placeItem = board.find(cell => {
+    return cell.cell == "h7";
+});
+placeItem.code = "wK";
+
+placeItem = board.find(cell => {
     return cell.cell == "f7";
 });
 placeItem.code = "wN";
@@ -297,6 +302,15 @@ function move(code){
     // Queen Move
     if((isSpe && code.charAt(1) == 'Q') || (!isSpe && code.charAt(0) == 'Q') ){
         isLegal = QueenValid(
+            (isSpe) ? code.substr(2) : code.substr(1),
+            (whiteTurn) ? 'w':'b',
+            (isSpe) ? code.charAt(0) : undefined
+        );
+    }
+
+    // King Move
+    if((isSpe && code.charAt(1) == 'K') || (!isSpe && code.charAt(0) == 'K') ){
+        isLegal = KingValid(
             (isSpe) ? code.substr(2) : code.substr(1),
             (whiteTurn) ? 'w':'b',
             (isSpe) ? code.charAt(0) : undefined
