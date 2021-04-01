@@ -189,10 +189,71 @@ function BishopValid(cell, player, spe = undefined){
                 break;
             }
         }
-        bishop.possibles = cellCodes;
         return bishop;
     });
-    console.log(bishops);
+    colorize(bishops[0].possibles);
     return checkTarget(bishops, cell, spe, player, 'B');
+}
+
+/***************************
+ * Knight Movement
+ * *************************/
+
+function KnightValid(cell, player, spe = undefined){
+    const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
+
+    // Get the possible moves
+    let knights = board.filter(item => {
+        return item.code === player + "N";
+    });
+
+    knights = knights.map(knight => {
+        knight.possibles = [];
+        const f = letters.indexOf(knight.cell.charAt(0));
+        const r = parseInt(knight.cell.charAt(1));
+
+        cellCodes = [
+            letters[f+1] + (r+2).toString(), // m1
+            letters[f+1] + (r-2).toString(), // m2
+            letters[f-1] + (r+2).toString(), // m3
+            letters[f-1] + (r-2).toString(), // m4
+            letters[f-2] + (r+1).toString(), // m5
+            letters[f-2] + (r-1).toString(), // m6
+            letters[f+2] + (r+1).toString(), // m6
+            letters[f+2] + (r-1).toString(), // m6
+        ];
+
+
+        // Check if the cell is not founded
+        // And check if there is a friend
+        cellCodes.forEach(item =>{
+            rankCheck = parseInt(item.charAt(1)) < 9
+                        && parseInt(item.charAt(1)) > 0
+
+            // item.length > 2 happens when the letter is not founded -> undefined3
+            if(!(item.length > 2) &&  rankCheck){
+                console.log(item);
+                const fr = board.find(ce =>{
+                    return ce.cell == item;
+                });
+                console.log(fr);
+                if(!(fr.code.charAt(0) == player)){
+                    knight.possibles.push(item);
+                }
+            }
+        });
+
+
+        // Converting the codes into cells
+        knight.possibles = knight.possibles.map(item => {
+            item = board.find(ce => {
+                return ce.cell === item;
+            });
+            return item
+        });
+        return knight;
+
+    });
+    return checkTarget(knights, cell, spe, player, 'N');
 }
 

@@ -47,7 +47,7 @@ letters.forEach(letter => {
 });
 
 placeItem = board.find(cell => {
-    return cell.cell == "d4";
+    return cell.cell == "d3";
 });
 placeItem.code = "wR";
 
@@ -62,9 +62,14 @@ placeItem = board.find(cell => {
 placeItem.code = "wB";
 
 placeItem = board.find(cell => {
-    return cell.cell == "b4";
+    return cell.cell == "h8";
 });
 placeItem.code = "bR";
+
+placeItem = board.find(cell => {
+    return cell.cell == "f7";
+});
+placeItem.code = "wN";
 /*
  * ============================= *
  * Finish filling up the board   *
@@ -263,7 +268,6 @@ function move(code){
             (whiteTurn) ? 'w':'b',
             (isSpe) ? code.charAt(0) : undefined
         );
-
     }
 
     // Bishop Move
@@ -273,8 +277,17 @@ function move(code){
             (whiteTurn) ? 'w':'b',
             (isSpe) ? code.charAt(0) : undefined
         );
-
     }
+
+    // Knight Move
+    if((isSpe && code.charAt(1) == 'N') || (!isSpe && code.charAt(0) == 'N') ){
+        isLegal = KnightValid(
+            (isSpe) ? code.substr(2) : code.substr(1),
+            (whiteTurn) ? 'w':'b',
+            (isSpe) ? code.charAt(0) : undefined
+        );
+    }
+
 
     if(!isLegal){
         alert("Illegal Move");
