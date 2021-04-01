@@ -5,6 +5,7 @@
 */
 
 const letters = ['a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'];
+const numbers = [1,2,3,4,5,6,7,8];
 
 let board = [];
 // Start with white pieces.
@@ -232,6 +233,16 @@ function move(code){
         }
     }
     code = chars;
+
+    // Fixing the PGN notation, dRe8 => Rde8
+    const c1 = letters.some(item => {return item == code.charAt(1)})
+    || numbers.some(item => {return parseInt(item) == code.charAt(1)});
+    const c2 = letters.some(item => {return item == code.charAt(2)});
+
+    if(c1 && c2){
+        code = code.slice(1,2) + code.slice(0,1) + code.slice(2)
+    }
+
 
     // First layer of checking.
     const isSpe = ['1', '2', '3', '4', '5', '6', '7', '8', 'a', 'b', 'c', 'd', 'e', 'f', 'g', 'h'].includes(code.charAt(0));

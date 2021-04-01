@@ -15,7 +15,6 @@ However for the programmers out there, there are a lots of helper functions that
 You can start contirbuting in the project and practice skills.
 
 ## TODO:
-0. Fix the PGN notation, (Rde7) instead of (dRe7)
 1. Create the Knight movement
 2. The Queen Movement
 3. King cannot move currently :smile: .
