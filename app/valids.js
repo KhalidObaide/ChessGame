@@ -33,7 +33,7 @@ function RookValid(cell, player, spe = undefined){
             rook.possibles.push(newCell);
 
             // If The enemy piece blocks the way out.
-            if(newCell.code.charAt(0) == 'b'){
+            if(newCell.code.charAt(0) == opp){
                 break;
             }
         }
@@ -50,13 +50,13 @@ function RookValid(cell, player, spe = undefined){
             rook.possibles.push(newCell);
 
             // If The enemy piece blocks the way out.
-            if(newCell.code.charAt(0) == 'b'){
+            if(newCell.code.charAt(0) == opp){
                 break;
             }
         }
 
-        for(let i=letters.indexOf(cell.charAt(0)) + 1; i<9; i++){
-            currentCell = letters[i-1] + rook.cell.charAt(1);
+        for(let i=letters.indexOf(rook.cell.charAt(0)) + 1; i<8; i++){
+            currentCell = letters[i] + rook.cell.charAt(1);
             newCell = board.find(item => {
                 return item.cell === currentCell;
             });
@@ -71,11 +71,13 @@ function RookValid(cell, player, spe = undefined){
             }
         }
 
-        for(let i=letters.indexOf(cell.charAt(0)); i>0; i--){
+        for(let i=letters.indexOf(rook.cell.charAt(0)); i>0; i--){
+
             currentCell = letters[i-1] + rook.cell.charAt(1);
             newCell = board.find(item => {
                 return item.cell === currentCell;
             });
+
             // If Our Own piece blocks the rook
             if(newCell.code.charAt(0) == player){
                 break;
@@ -83,7 +85,7 @@ function RookValid(cell, player, spe = undefined){
             rook.possibles.push(newCell);
 
             // If The enemy piece blocks the way out.
-            if(newCell.code.charAt(0) == 'b'){
+            if(newCell.code.charAt(0) == opp){
                 break;
             }
         }
@@ -189,9 +191,10 @@ function BishopValid(cell, player, spe = undefined){
                 break;
             }
         }
+
+        bishop.possibles = cellCodes;
         return bishop;
     });
-    colorize(bishops[0].possibles);
     return checkTarget(bishops, cell, spe, player, 'B');
 }
 
@@ -232,11 +235,9 @@ function KnightValid(cell, player, spe = undefined){
 
             // item.length > 2 happens when the letter is not founded -> undefined3
             if(!(item.length > 2) &&  rankCheck){
-                console.log(item);
                 const fr = board.find(ce =>{
                     return ce.cell == item;
                 });
-                console.log(fr);
                 if(!(fr.code.charAt(0) == player)){
                     knight.possibles.push(item);
                 }
@@ -257,3 +258,180 @@ function KnightValid(cell, player, spe = undefined){
     return checkTarget(knights, cell, spe, player, 'N');
 }
 
+/* **********************
+ * The Queen Movement
+ * *********************/
+
+function QueenValid(cell, player, spe = undefined){
+    const opp = (player == 'w') ? 'b' : 'w'; // opp stands for opposite
+
+    // Get the possible moves
+    let queens = board.filter(item => {
+        return item.code === player + "Q";
+    });
+
+    queens = queens.map(queen => {
+        queen.possibles = [];
+
+        // Getting the rank upper cells
+        for(let i=parseInt(queen.cell.charAt(1))+1; i<9; i++){
+            currentCell = queen.cell.charAt(0) + i.toString();
+            newCell = board.find(item => {
+                return item.cell === currentCell;
+            });
+            // If Our Own piece blocks the queen
+            if(newCell.code.charAt(0) == player){
+                break;
+            }
+            queen.possibles.push(newCell);
+
+            // If The enemy piece blocks the way out.
+            if(newCell.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        for(let i=parseInt(queen.cell.charAt(1))-1; i>0; i--){
+            currentCell = queen.cell.charAt(0) + i.toString();
+            newCell = board.find(item => {
+                return item.cell === currentCell;
+            });
+            // If Our Own piece blocks the queen
+            if(newCell.code.charAt(0) == player){
+                break;
+            }
+            queen.possibles.push(newCell);
+
+            // If The enemy piece blocks the way out.
+            if(newCell.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        for(let i=letters.indexOf(queen.cell.charAt(0)) + 1; i<8; i++){
+            currentCell = letters[i] + queen.cell.charAt(1);
+            newCell = board.find(item => {
+                return item.cell === currentCell;
+            });
+            // If Our Own piece blocks the queen
+            if(newCell.code.charAt(0) == player){
+                break;
+            }
+            queen.possibles.push(newCell);
+            // If The enemy piece blocks the way out.
+            if(newCell.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        for(let i=letters.indexOf(queen.cell.charAt(0)); i>0; i--){
+
+            currentCell = letters[i-1] + queen.cell.charAt(1);
+            newCell = board.find(item => {
+                return item.cell === currentCell;
+            });
+
+            // If Our Own piece blocks the queen
+            if(newCell.code.charAt(0) == player){
+                break;
+            }
+            queen.possibles.push(newCell);
+
+            // If The enemy piece blocks the way out.
+            if(newCell.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        // Going diagnols
+        let cellCodes = [];
+        const currentFile = letters.indexOf(queen.cell.charAt(0));
+        const currentRank = parseInt(queen.cell.charAt(1));
+        let rank;
+
+        // Get the rts
+        rank = currentRank;
+        for(let i=currentFile+1; i<letters.length; i++){
+            rank++;
+            if (rank > 8){
+                break;
+            }
+            let cellCode = board.find(item=>{
+                return item.cell === letters[i] + rank;
+            });
+            if(cellCode.code.charAt(0) == player){
+                break;
+            }
+            cellCodes.push(cellCode);
+            if(cellCode.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        // Get the rbs
+        rank = currentRank;
+        for(let i=currentFile+1; i<letters.length; i++){
+            rank--;
+            if (rank < 1){
+                break;
+            }
+            let cellCode = board.find(item=>{
+                return item.cell === letters[i] + rank;
+            });
+            if(cellCode.code.charAt(0) == player){
+                break;
+            }
+            cellCodes.push(cellCode);
+            if(cellCode.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        // Get the lts
+        rank = currentRank;
+        for(let i=currentFile-1; i>-1; i--){
+            rank++;
+            if (rank > 8){
+                break;
+            }
+            let cellCode = board.find(item=>{
+                return item.cell === letters[i] + rank;
+            });
+            if(cellCode.code.charAt(0) == player){
+                break;
+            }
+            cellCodes.push(cellCode);
+            if(cellCode.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        // Get the lbs
+        rank = currentRank;
+        for(let i=currentFile-1; i>-1; i--){
+            rank--;
+            if (rank < 1){
+                break;
+            }
+            let cellCode = board.find(item=>{
+                return item.cell === letters[i] + rank;
+            });
+
+            if(cellCode.code.charAt(0) == player){
+                break;
+            }
+            cellCodes.push(cellCode);
+            if(cellCode.code.charAt(0) == opp){
+                break;
+            }
+        }
+
+        cellCodes.forEach(cellCode =>{
+            queen.possibles.push(cellCode);
+        });
+
+        return queen;
+    });
+
+    return checkTarget(queens, cell, spe, player, 'Q');
+}

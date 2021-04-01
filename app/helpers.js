@@ -46,10 +46,6 @@ letters.forEach(letter => {
     board.push({code : "oo", cell : letter + "6"});
 });
 
-placeItem = board.find(cell => {
-    return cell.cell == "d3";
-});
-placeItem.code = "wR";
 
 placeItem = board.find(cell => {
     return cell.cell == "g7";
@@ -70,6 +66,16 @@ placeItem = board.find(cell => {
     return cell.cell == "f7";
 });
 placeItem.code = "wN";
+
+placeItem = board.find(cell => {
+    return cell.cell == "f8";
+});
+placeItem.code = "wN";
+
+placeItem = board.find(cell => {
+    return cell.cell == "a8";
+});
+placeItem.code = "bQ";
 /*
  * ============================= *
  * Finish filling up the board   *
@@ -288,6 +294,14 @@ function move(code){
         );
     }
 
+    // Queen Move
+    if((isSpe && code.charAt(1) == 'Q') || (!isSpe && code.charAt(0) == 'Q') ){
+        isLegal = QueenValid(
+            (isSpe) ? code.substr(2) : code.substr(1),
+            (whiteTurn) ? 'w':'b',
+            (isSpe) ? code.charAt(0) : undefined
+        );
+    }
 
     if(!isLegal){
         alert("Illegal Move");

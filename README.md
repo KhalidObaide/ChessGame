@@ -15,11 +15,10 @@ However for the programmers out there, there are a lots of helper functions that
 You can start contirbuting in the project and practice skills.
 
 ## TODO:
-1. The Queen Movement
-2. King cannot move currently :smile: .
-3. The pawns are really important.
-4. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
-5. Dragging the pieces in order to move instead of using the code.
+1. King cannot move currently :smile: .
+2. The pawns are really important.
+3. Add the extra rules Like : en passant, casteling, checking, checkmating, promoting, stealmate, ...
+4. Dragging the pieces in order to move instead of using the code.
 
 ## Contirbute
 :relaxed: Fell free to contirbute to this project, and don't forget to send a pull request.\
