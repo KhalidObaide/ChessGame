@@ -10,8 +10,8 @@ A minimal chess game using chess notations. made in js.
 * Open the `index.html` file in any browser
 * If you don't know anything about `chess notaions` just type the following to get something moving
     1. Bc1 <Enter> White's Turn: Bishop moves to c1 square
-    Qxf8 <Enter> Black's Turn: Queen Captures on f8 squre
-    Nxh8 <Enter> White's Turn: Night Captures on h8
+    2. Qxf8 <Enter> Black's Turn: Queen Captures on f8 squre
+    3. Nxh8 <Enter> White's Turn: Night Captures on h8
 
 Learn more about chess notations in https://en.wikipedia.org/wiki/Algebraic_notation_(chess)
 
